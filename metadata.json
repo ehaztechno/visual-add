@@ -1,0 +1,6 @@
+{
+  "name": "Visual Adda",
+  "description": "Turning Vision into Experiences. High-performance design & media studio specializing in 2D Animations, CGI, 3D Content, Walkthroughs, Digital Video Production, and Interactive Experiences.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

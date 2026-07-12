@@ -25,7 +25,7 @@ export default function PricingFaq() {
   const tiers = [
     {
       name: "Standard Reel & AV Plan",
-      price: billingPeriod === "annual" ? 1200 : 1500,
+      price: billingPeriod === "annual" ? 99000 : 125000,
       period: "project",
       badge: "Standard",
       description: "Perfect for high-tempo social campaigns, single real estate trailers, or corporate visual pitches.",
@@ -41,7 +41,7 @@ export default function PricingFaq() {
     },
     {
       name: "Interactive Walkthrough Suite",
-      price: billingPeriod === "annual" ? 2800 : 3500,
+      price: billingPeriod === "annual" ? 225000 : 280000,
       period: "project",
       badge: "Most Prescribed",
       description: "Photorealistic 3D CGI architectural animations and browser-native virtual spatial walk-rounds.",
@@ -58,7 +58,7 @@ export default function PricingFaq() {
     },
     {
       name: "Studio Retainer Partner",
-      price: billingPeriod === "annual" ? 6400 : 8000,
+      price: billingPeriod === "annual" ? 510000 : 640000,
       period: "month",
       badge: "Unlimited Studio",
       description: "Your dedicated professional visual effects, 3D architecture, and cinematography department on tap.",
@@ -182,7 +182,7 @@ export default function PricingFaq() {
                 <div className="pt-4 border-t border-white/5">
                   <div className="flex items-baseline gap-1">
                     <span className="font-display text-4xl sm:text-5xl font-black text-white">
-                      {typeof tier.price === "number" ? `$${tier.price.toLocaleString()}` : tier.price}
+                      {typeof tier.price === "number" ? `₹${tier.price.toLocaleString('en-IN')}` : tier.price}
                     </span>
                     <span className="text-xs font-mono text-white/40 lowercase">
                       /{tier.period}

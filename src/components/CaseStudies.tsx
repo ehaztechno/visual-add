@@ -14,6 +14,7 @@ import {
   Monitor,
   PenTool
 } from "lucide-react";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 export default function CaseStudies() {
   const [activeCase, setActiveCase] = useState(0);
@@ -26,7 +27,7 @@ export default function CaseStudies() {
       title: "Hyper-Realistic 3D Architectural CGI Walkthrough",
       metrics: {
         timeReduction: "3.2x",
-        dollarSaved: "$85,000",
+        dollarSaved: "₹70 Lakhs",
         accuracy: "99.2%",
         label1: "Render Optimization",
         value1: "4K Path-Traced Octane Renders",
@@ -43,7 +44,7 @@ export default function CaseStudies() {
       title: "Interactive WebGL Spatial Interior Explorer",
       metrics: {
         timeReduction: "10x",
-        dollarSaved: "$120,000",
+        dollarSaved: "₹99 Lakhs",
         accuracy: "98.7%",
         label1: "Avg Tour Duration",
         value1: "15 mins per session",
@@ -60,7 +61,7 @@ export default function CaseStudies() {
       title: "Cinematic Keynote Motivational Video & Synchronized Backdrop Rigs",
       metrics: {
         timeReduction: "100%",
-        dollarSaved: "$40,000",
+        dollarSaved: "₹33 Lakhs",
         accuracy: "100%",
         label1: "LED Wall Resolution",
         value1: "18,000px Ultra-Wide Frame",
@@ -223,6 +224,9 @@ export default function CaseStudies() {
 
           </div>
         </div>
+
+        {/* Before vs After production comparison slider */}
+        <BeforeAfterSlider />
 
       </div>
     </section>

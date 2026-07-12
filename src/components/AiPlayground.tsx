@@ -15,16 +15,34 @@ import {
   Clock,
   Video,
   PenTool,
-  Code
+  Code,
+  FileText,
+  Layers
 } from "lucide-react";
 import { PlaygroundResult } from "../types";
+import ProposalWizard from "./ProposalWizard";
 
 export default function AiPlayground() {
+  const [activeTab, setActiveTab] = useState<"proposal" | "3d" | "script" | "webgl">("proposal");
   const [agentType, setAgentType] = useState("3D Rendering & Lighting Director");
   const [userPrompt, setUserPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PlaygroundResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const selectTab = (tab: "proposal" | "3d" | "script" | "webgl") => {
+    setActiveTab(tab);
+    if (tab === "3d") {
+      setAgentType("3D Rendering & Lighting Director");
+    } else if (tab === "script") {
+      setAgentType("Motivational Scriptwriter");
+    } else if (tab === "webgl") {
+      setAgentType("Interactive WebGL & AR Architect");
+    }
+    setUserPrompt("");
+    setResult(null);
+    setError(null);
+  };
 
   const agents = [
     {
@@ -114,44 +132,72 @@ export default function AiPlayground() {
           </p>
         </div>
 
+        {/* Main Tab Switcher */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-zinc-950/60 p-2 border border-white/5 rounded-2xl backdrop-blur-md">
+            {[
+              { id: "proposal", label: "Proposal & ROI Wizard", icon: FileText, desc: "Briefing & Estimation" },
+              { id: "3d", label: "3D CGI Director", icon: Cpu, desc: "Octane & Raytracing" },
+              { id: "script", label: "Screenplay Director", icon: PenTool, desc: "Cinematic Copywriting" },
+              { id: "webgl", label: "WebGL & AR Architect", icon: Code, desc: "Interactive Shaders" }
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => selectTab(tab.id as any)}
+                  className={`flex flex-col items-center text-center p-3 sm:p-4 rounded-xl transition-all duration-300 relative group cursor-pointer ${
+                    isActive
+                      ? "bg-white/5 border border-white/10 text-white shadow-xl"
+                      : "border border-transparent text-white/40 hover:text-white/80 hover:bg-white/[0.02]"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTabIndicator"
+                      className="absolute inset-0 bg-gradient-to-r from-neon-purple/5 to-neon-orange/5 rounded-xl border border-neon-orange/20 -z-10"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  <Icon className={`w-5 h-5 mb-2 transition-transform duration-300 group-hover:scale-110 ${isActive ? "text-neon-orange" : "text-white/40"}`} />
+                  <span className="text-[11px] font-bold uppercase tracking-wider block leading-none">{tab.label}</span>
+                  <span className="text-[9px] text-white/30 mt-1 font-mono tracking-normal block">{tab.desc}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Workspace Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Controls Column (Left) */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#0a0a0a]/90 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-md relative">
-              <div className="absolute top-0 right-1/10 w-24 h-[1px] bg-gradient-to-r from-transparent via-neon-orange to-transparent"></div>
-              
-              <h3 className="font-display text-base font-bold text-white mb-4 flex items-center gap-2 uppercase tracking-wide">
-                <Command className="w-4 h-4 text-neon-orange" />
-                <span>1. Select Creative Engine</span>
-              </h3>
+        {activeTab === "proposal" ? (
+          <ProposalWizard hideHeader={true} />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* Controls Column (Left) */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="bg-[#0a0a0a]/90 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-md relative">
+                <div className="absolute top-0 right-1/10 w-24 h-[1px] bg-gradient-to-r from-transparent via-neon-orange to-transparent"></div>
+                
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-neon-orange/10 border border-neon-orange/20 flex items-center justify-center text-neon-orange shrink-0">
+                    <Cpu className="w-5 h-5 animate-pulse" />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-[10px] font-mono text-neon-orange uppercase tracking-widest font-bold">
+                      Active Design Engine
+                    </span>
+                    <h4 className="font-display text-sm font-extrabold text-white uppercase tracking-wider">
+                      {activeAgent.name}
+                    </h4>
+                  </div>
+                </div>
+                <p className="text-white/50 text-[11px] font-light text-left leading-normal mb-6">
+                  {activeAgent.description}
+                </p>
 
-              {/* Selector Tabs */}
-              <div className="space-y-3 mb-6">
-                {agents.map((agent) => (
-                  <button
-                    key={agent.name}
-                    id={`agent-selector-${agent.name.replace(/\s+/g, '-')}`}
-                    onClick={() => {
-                      setAgentType(agent.name);
-                      setUserPrompt("");
-                      setResult(null);
-                      setError(null);
-                    }}
-                    className={`w-full text-left p-3.5 rounded-xl border transition-all relative cursor-pointer ${
-                      agentType === agent.name
-                        ? "border-neon-orange/40 bg-neon-orange/5 text-white"
-                        : "border-white/5 bg-white/5 text-white/50 hover:border-white/10 hover:text-white"
-                    }`}
-                  >
-                    <span className="block text-xs font-bold uppercase">{agent.name}</span>
-                    <span className="block text-[10px] text-white/40 mt-1 font-light leading-snug">{agent.description}</span>
-                  </button>
-                ))}
-              </div>
-
-              {/* Prompt Input Area */}
+                {/* Prompt Input Area */}
               <div className="space-y-4">
                 <h3 className="font-display text-base font-bold text-white flex items-center justify-between uppercase tracking-wide">
                   <span className="flex items-center gap-2">
@@ -411,6 +457,7 @@ export default function AiPlayground() {
           </div>
 
         </div>
+        )}
 
       </div>
     </section>

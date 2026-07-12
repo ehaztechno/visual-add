@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { ProposalInput, ProposalBlueprint } from "../types";
 
-export default function ProposalWizard() {
+export default function ProposalWizard({ hideHeader = false }: { hideHeader?: boolean } = {}) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +32,7 @@ export default function ProposalWizard() {
     companyName: "",
     industry: "Real Estate & Property",
     bottlenecks: "",
-    budget: "$15K - $35K (Scale)",
+    budget: "₹12 Lakhs - ₹28 Lakhs (Scale)",
     teamSize: "Growth (Full AV + CGI)"
   });
 
@@ -93,7 +93,7 @@ export default function ProposalWizard() {
       companyName: "",
       industry: "Real Estate & Property",
       bottlenecks: "",
-      budget: "$15K - $35K (Scale)",
+      budget: "₹12 Lakhs - ₹28 Lakhs (Scale)",
       teamSize: "Growth (Full AV + CGI)"
     });
   };
@@ -109,10 +109,10 @@ export default function ProposalWizard() {
   ];
 
   const budgets = [
-    "$5K - $15K (Standard AV/Graphics)",
-    "$15K - $35K (Interactive Web + Walkthrough)",
-    "$35K - $75K (Full Suite Studio Deliverables)",
-    "$75K+ (Bespoke Continuous Branding Partner)"
+    "₹4 Lakhs - ₹12 Lakhs (Standard AV/Graphics)",
+    "₹12 Lakhs - ₹28 Lakhs (Interactive Web + Walkthrough)",
+    "₹28 Lakhs - ₹60 Lakhs (Full Suite Studio Deliverables)",
+    "₹60 Lakhs+ (Bespoke Continuous Branding Partner)"
   ];
 
   const projectScopes = [
@@ -123,28 +123,34 @@ export default function ProposalWizard() {
   ];
 
   return (
-    <section id="blueprint" className="py-24 bg-transparent relative overflow-hidden">
-      {/* Decorative Blur Backgrounds */}
-      <div className="absolute top-1/3 left-1/10 w-96 h-96 rounded-full bg-neon-purple/5 blur-3xl" />
-      <div className="absolute bottom-1/3 right-1/10 w-96 h-96 rounded-full bg-neon-orange/5 blur-3xl animate-pulse-glow" />
+    <section id="blueprint" className={hideHeader ? "w-full text-left relative" : "py-24 bg-transparent relative overflow-hidden"}>
+      {!hideHeader && (
+        <>
+          {/* Decorative Blur Backgrounds */}
+          <div className="absolute top-1/3 left-1/10 w-96 h-96 rounded-full bg-neon-purple/5 blur-3xl" />
+          <div className="absolute bottom-1/3 right-1/10 w-96 h-96 rounded-full bg-neon-orange/5 blur-3xl animate-pulse-glow" />
+        </>
+      )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className={hideHeader ? "w-full" : "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"}>
         
         {/* Header Block */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-            <Sparkles className="w-3.5 h-3.5 text-neon-orange" />
-            <span className="text-[10px] font-mono text-neon-orange uppercase tracking-widest font-semibold font-mono">
-              Bespoke Media Briefing Tool
-            </span>
+        {!hideHeader && (
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+              <Sparkles className="w-3.5 h-3.5 text-neon-orange" />
+              <span className="text-[10px] font-mono text-neon-orange uppercase tracking-widest font-semibold font-mono">
+                Bespoke Media Briefing Tool
+              </span>
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white uppercase">
+              FORMULATE YOUR <span className="bg-gradient-to-r from-neon-purple via-neon-orange to-neon-yellow bg-clip-text text-transparent">CREATIVE BLUEPRINT</span>
+            </h2>
+            <p className="text-white/50 font-light text-sm sm:text-base max-w-2xl mx-auto">
+              Input a few details about your project needs. Our dynamic director engine powered by Gemini generates a tailored visual production proposal, roadmap, and pricing framework.
+            </p>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white uppercase">
-            FORMULATE YOUR <span className="bg-gradient-to-r from-neon-purple via-neon-orange to-neon-yellow bg-clip-text text-transparent">CREATIVE BLUEPRINT</span>
-          </h2>
-          <p className="text-white/50 font-light text-sm sm:text-base max-w-2xl mx-auto">
-            Input a few details about your project needs. Our dynamic director engine powered by Gemini generates a tailored visual production proposal, roadmap, and pricing framework.
-          </p>
-        </div>
+        )}
 
         {/* Wizard Main Container */}
         <div className="max-w-4xl mx-auto bg-[#0a0a0a]/90 border border-white/10 rounded-3xl backdrop-blur-md overflow-hidden shadow-2xl relative">
@@ -492,7 +498,7 @@ export default function ProposalWizard() {
                     <div className="bg-white/5 border border-white/5 p-4 rounded-xl text-center hover:border-neon-purple/30 transition-all relative overflow-hidden group">
                       <span className="block text-[9px] font-mono text-white/40 uppercase tracking-wider font-semibold">Value Reclaimed</span>
                       <span className="block font-display text-xl sm:text-2xl font-extrabold text-neon-orange mt-1">
-                        ${blueprint.projectedROI.annualSavingsUSD.toLocaleString()}
+                        ₹{blueprint.projectedROI.annualSavingsUSD.toLocaleString('en-IN')}
                       </span>
                       <span className="text-[9px] font-mono text-white/30 mt-1 block">In-house production value</span>
                     </div>

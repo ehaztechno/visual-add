@@ -26,6 +26,17 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "healthy", timestamp: new Date().toISOString() });
 });
 
+// Route to serve local showreel video from the workspace root
+app.get("/VA-Showreel-LQ.mp4", (req, res) => {
+  const videoPath = path.join(process.cwd(), "VA-Showreel-LQ.mp4");
+  res.sendFile(videoPath, (err) => {
+    if (err) {
+      // If local file is not found, redirect to a beautiful high-quality cinematic video
+      res.redirect("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4");
+    }
+  });
+});
+
 // 1. Generate Custom AI Strategic Blueprint using Gemini
 app.post("/api/proposal/generate", async (req, res) => {
   try {
@@ -46,9 +57,9 @@ Company Name: ${companyName}
 Industry: ${industry}
 Primary Bottlenecks: ${bottlenecks}
 Company Size: ${teamSize || "Medium (50-200 employees)"}
-Allocated Budget Range: ${budget || "Scale ($10K - $30K)"}
+Allocated Budget Range: ${budget || "Scale (₹8,00,000 - ₹25,00,000)"}
 
-Analyze their requirements, calculate concrete estimated production savings (hours reclaimed/effort saved), and propose three specific visual media solutions (e.g. 2D animations, 3D CGI walkthroughs, motivational AVs, interactive activities), a phase-based project roadmap, and technology recommendation tools (e.g., Unreal Engine, Resolume Arena, Blender). Output must follow the required JSON structure precisely.`;
+Analyze their requirements, calculate concrete estimated production savings in Indian Rupees (INR) (hours reclaimed/effort saved), and propose three specific visual media solutions (e.g. 2D animations, 3D CGI walkthroughs, motivational AVs, interactive activities), a phase-based project roadmap, and technology recommendation tools (e.g., Unreal Engine, Resolume Arena, Blender). Output must follow the required JSON structure precisely.`;
 
     const response = await ai.models.generateContent({
       model: "gemini-3.5-flash",
@@ -66,7 +77,7 @@ Analyze their requirements, calculate concrete estimated production savings (hou
             projectedROI: {
               type: Type.OBJECT,
               properties: {
-                annualSavingsUSD: { type: Type.NUMBER, description: "Estimated dollar savings annually." },
+                annualSavingsUSD: { type: Type.NUMBER, description: "Estimated Indian Rupees (INR) savings annually." },
                 hoursReclaimedWeekly: { type: Type.NUMBER, description: "Hours reclaimed per team member/workflow weekly." },
                 efficiencyGainPercent: { type: Type.NUMBER, description: "Projected percentage throughput increase." },
                 paybackPeriodMonths: { type: Type.NUMBER, description: "Estimated months to break even on integration costs." }
@@ -214,6 +225,87 @@ You must return a JSON response containing:
     console.error("Error in agent simulation:", error);
     res.status(500).json({ 
       error: "Agent simulation failed", 
+      details: error?.message || String(error) 
+    });
+  }
+});
+
+// 3. Visual Adda AI Agent Chatbot Endpoint
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { message, history } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: "Missing message parameter" });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ 
+        error: "Gemini API key is not configured. Please add it via Settings > Secrets." 
+      });
+    }
+
+    // Build conversation payload with history and current message
+    const contents = [];
+    if (history && Array.isArray(history)) {
+      for (const msg of history) {
+        contents.push({
+          role: msg.role === "user" ? "user" : "model",
+          parts: [{ text: msg.text }]
+        });
+      }
+    }
+    contents.push({
+      role: "user",
+      parts: [{ text: message }]
+    });
+
+    const systemInstruction = `You are "AddaBot", the friendly, highly creative, and extremely polished AI representative for "Visual Adda" (https://ai.studio/build/visual-adda), an elite Indian visual production and 3D architectural CGI studio.
+
+Your purpose is to welcome visitors, explain Visual Adda's creative capabilities, help them understand our pricing tiers, and guide them in booking/contacting the team. You must answer questions using only real information about the agency.
+
+Key Agency Information to Reference:
+1. Brand Identity & Purpose: Located in India. Tagline: "One Studio. Endless Possibilities." and "Creating Experiences. Delivering Impact." We operate at the intersection of cinematic storytelling, high-fidelity 3D CGI, and interactive graphics.
+2. Services & Pipelines:
+   - 3D CGI Walkthroughs (e.g., 4K path-traced Octane / Unreal engine renders for premium high-rise developers).
+   - 2D Animation & Illustration (brand mascot pencil sketch concepts to polished neon-lit digital vector art).
+   - Corporate Film & AV Production (synchronized widescreen LED backdrops, employee anthems, high-tempo promotional trailers).
+   - Interactive WebGL (real-time virtual tour systems, layout builders).
+3. The Team Roster:
+   - Aryan Dev (Creative Director)
+   - Tanya Sen (3D Specialist & CGI Lead)
+   - Rishi Raj (Digital Video Producer)
+   - Karan Mehta (Walkthrough Architect)
+   - Sneha Kapur (Interactive Tech Lead)
+4. Premium Indian Pricing Tiers (in INR):
+   - Standard Reel & AV Plan: ₹99,000 (annual rate/project) or ₹1,25,000 (one-time). Ideal for social trailers, single teasers, short pitches.
+   - Interactive Walkthrough Suite: ₹2,25,000 (annual rate/project) or ₹2,80,000 (one-time). For photorealistic architectural walk-throughs and WebGL exploration rigs.
+   - Studio Retainer Partner: ₹5,10,000 (annual rate/month) or ₹6,40,000 (one-time/month). Unlimited VFX, architectural CGI, edits, with a dedicated team on retainer.
+5. Interactive features on the website the user can try:
+   - "Before & After Slider" under Case Studies: Compare grey viewport meshes with 4K renders, or pencil drafts with finished neon vectors.
+   - "Creative Lab / AI Playground" on the main page: Interact with 4 specialized engines (Render Optimizer, Motion Choreographer, Storyboard Illustrator, Spatial Audio Synth).
+   - "Proposal Wizard" in the navigation/services area: Let visitors input their business size, bottlenecks, and industry to instantly get a bespoke visual strategy plan, ROI projection, and phase roadmaps.
+6. Conversation Tone:
+   - Creative, professional, encouraging, and welcoming.
+   - Since we are an Indian-based agency, represent all money amounts in INR (₹) using Indian styling (e.g., Lakhs/Crores, e.g. ₹2.25 Lakhs) and never quote USD ($).
+   - Keep replies concise, structurally clean with scannable bullet points, and prompt them to fill out the Contact Form or use the Interactive Proposal Wizard if they are ready to brief us!`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: contents,
+      config: {
+        systemInstruction: systemInstruction,
+        temperature: 0.7,
+      }
+    });
+
+    const reply = response.text || "I'm sorry, I couldn't generate a response at this moment. How else can I assist you with Visual Adda's production workflows?";
+    res.json({ success: true, text: reply });
+
+  } catch (error: any) {
+    console.error("Error in chatbot endpoint:", error);
+    res.status(500).json({ 
+      error: "Failed to generate chat response", 
       details: error?.message || String(error) 
     });
   }

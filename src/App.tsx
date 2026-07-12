@@ -10,9 +10,23 @@ import PricingFaq from "./components/PricingFaq";
 import ContactPage from "./components/ContactPage";
 import Footer from "./components/Footer";
 import GlobalSlinkyBackground from "./components/GlobalSlinkyBackground";
+import ExitIntentModal from "./components/ExitIntentModal";
+import AiChatbot from "./components/AiChatbot";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Monitor scroll height to trigger floating header once past top video
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 80);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Handler for custom multi-page navigation
   const handleNavigate = (pageId: string) => {
@@ -28,7 +42,11 @@ export default function App() {
       <GlobalSlinkyBackground currentPage={currentPage} />
 
       {/* Premium Header with navigation actions and live EST clock */}
-      <Header onNavigate={handleNavigate} currentPage={currentPage} />
+      <Header 
+        onNavigate={handleNavigate} 
+        currentPage={currentPage} 
+        isVisible={true} 
+      />
 
       {/* Main Pages with gorgeous fade-in-up animations */}
       <main className="relative z-10">
@@ -50,6 +68,11 @@ export default function App() {
               {/* Bento Grid Specialties & Solutions */}
               <div id="services-section">
                 <ServicesBento />
+              </div>
+
+              {/* Dynamic Creative Lab - AI Playground containing all 4 digital engines */}
+              <div id="playground-section">
+                <AiPlayground />
               </div>
 
               {/* Case Studies Carousel */}
@@ -107,6 +130,12 @@ export default function App() {
 
       {/* Strategic Footer */}
       <Footer onNavigate={handleNavigate} />
+
+      {/* Exit Intent Prompt */}
+      <ExitIntentModal onNavigate={handleNavigate} />
+
+      {/* AI Agent Chatbot Widget */}
+      <AiChatbot onNavigate={handleNavigate} />
     </div>
   );
 }

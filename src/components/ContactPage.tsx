@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Send, Check, HeartHandshake } from "lucide-react";
 
 export default function ContactPage() {
   const [inquiryType, setInquiryType] = useState("3D CGI Walkthrough");
-  const [budget, setBudget] = useState("$15,000 - $35,000");
+  const [budget, setBudget] = useState("₹10 Lakhs - ₹25 Lakhs");
   const [timeline, setTimeline] = useState("Within a month");
   const [formData, setFormData] = useState({
     fullName: "",
@@ -38,7 +38,7 @@ export default function ContactPage() {
   };
 
   const inquiryTypes = ["3D CGI Walkthrough", "2D Animation", "Corporate Film / AV", "Interactive WebGL", "General Brief"];
-  const budgets = ["Under $5,000", "$5,000 - $15,000", "$15,000 - $35,000", "$35,000+"];
+  const budgets = ["Under ₹4 Lakhs", "₹4 Lakhs - ₹10 Lakhs", "₹10 Lakhs - ₹25 Lakhs", "₹25 Lakhs+"];
   const timelines = ["Immediately", "Within a month", "1 - 3 months", "Flexible"];
 
   return (

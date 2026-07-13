@@ -11,7 +11,6 @@ import ContactPage from "./components/ContactPage";
 import Footer from "./components/Footer";
 import GlobalSlinkyBackground from "./components/GlobalSlinkyBackground";
 import ExitIntentModal from "./components/ExitIntentModal";
-import AiChatbot from "./components/AiChatbot";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -133,9 +132,6 @@ export default function App() {
 
       {/* Exit Intent Prompt */}
       <ExitIntentModal onNavigate={handleNavigate} />
-
-      {/* AI Agent Chatbot Widget */}
-      <AiChatbot onNavigate={handleNavigate} />
     </div>
   );
 }

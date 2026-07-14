@@ -2,6 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, HelpCircle, ArrowLeftRight, Monitor, PenTool } from "lucide-react";
 
+// Import images as ES modules to let Vite hash and package them during builds
+import penthouseWireframe from "../assets/images/penthouse_wireframe_1783814452453.jpg";
+import penthouseRender from "../assets/images/penthouse_render_1783814467364.jpg";
+import mascotSketch from "../assets/images/mascot_sketch_1783814482269.jpg";
+import mascotPolished from "../assets/images/mascot_polished_1783814495202.jpg";
+
 interface ComparisonPreset {
   id: string;
   name: string;
@@ -48,8 +54,8 @@ export default function BeforeAfterSlider() {
       name: "3D Architectural CGI",
       category: "CGI & Render Optimization",
       icon: Monitor,
-      beforeImg: "/src/assets/images/penthouse_wireframe_1783814452453.jpg",
-      afterImg: "/src/assets/images/penthouse_render_1783814467364.jpg",
+      beforeImg: penthouseWireframe,
+      afterImg: penthouseRender,
       beforeLabel: "Grey Mesh Viewport",
       afterLabel: "4K Octane Path-Traced Render",
       beforeDesc: "Initial geometry draft & blueprint alignment in viewport environment.",
@@ -60,8 +66,8 @@ export default function BeforeAfterSlider() {
       name: "2D Character Concept",
       category: "Creative 2D & Illustration",
       icon: PenTool,
-      beforeImg: "/src/assets/images/mascot_sketch_1783814482269.jpg",
-      afterImg: "/src/assets/images/mascot_polished_1783814495202.jpg",
+      beforeImg: mascotSketch,
+      afterImg: mascotPolished,
       beforeLabel: "Raw Graphite Sketch",
       afterLabel: "Polished Digital Vector",
       beforeDesc: "Initial hand-drawn design, capturing structure, proportion, and weight.",

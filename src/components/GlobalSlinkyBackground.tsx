@@ -160,7 +160,7 @@ export default function GlobalSlinkyBackground({ currentPage }: GlobalSlinkyBack
         targetOpacity = 0.55;
         targetHue = 20; // Neon Orange
       } else if (currentPage === "technology") {
-        // Technology / AI Playground Page: Dynamic facing high-speed tunnel look (Vibrant Purple)
+        // Technology Page: Dynamic facing high-speed tunnel look (Vibrant Purple)
         targetX = cx;
         targetY = cy - 20;
         targetScale = 1.55;

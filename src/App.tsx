@@ -4,7 +4,8 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import AboutAgency from "./components/AboutAgency";
 import ServicesBento from "./components/ServicesBento";
-import AiPlayground from "./components/AiPlayground";
+import RenderEstimator from "./components/RenderEstimator";
+import TechnologyPage from "./components/TechnologyPage";
 import CaseStudies from "./components/CaseStudies";
 import PricingFaq from "./components/PricingFaq";
 import ContactPage from "./components/ContactPage";
@@ -69,9 +70,9 @@ export default function App() {
                 <ServicesBento />
               </div>
 
-              {/* Dynamic Creative Lab - AI Playground containing all 4 digital engines */}
-              <div id="playground-section">
-                <AiPlayground />
+              {/* Dynamic Production Render Calculator */}
+              <div id="estimator-section" className="max-w-7xl mx-auto px-6 sm:px-12 py-16 relative z-10">
+                <RenderEstimator />
               </div>
 
               {/* Case Studies Carousel */}
@@ -108,7 +109,7 @@ export default function App() {
               transition={{ duration: 0.45, ease: "easeOut" }}
               className="bg-transparent"
             >
-              <AiPlayground />
+              <TechnologyPage />
             </motion.div>
           )}
 

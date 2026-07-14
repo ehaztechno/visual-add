@@ -230,6 +230,79 @@ You must return a JSON response containing:
   }
 });
 
+// 3. Studio AI Director - Lightweight Cinematic Script & Storyboard Generator
+app.post("/api/director/draft", async (req, res) => {
+  try {
+    const { format, mood, brief } = req.body;
+
+    if (!format || !mood || !brief) {
+      return res.status(400).json({ error: "Missing required fields (format, mood, brief)" });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ 
+        error: "Gemini API Key is not configured. Please add it via Settings > Secrets." 
+      });
+    }
+
+    const prompt = `Draft a high-tempo cinematic 4-shot storyboard sequence for a visual production:
+Format/Pipeline: ${format}
+Aesthetic Mood: ${mood}
+Creative Brief/Concept: ${brief}
+
+Design exactly 4 sequential camera shots that outline an immersive storytelling visual. Keep descriptions punchy, specific to professional visual CGI/animation pipelines, and highly scannable. Returns JSON output matching the required schema.`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+      config: {
+        systemInstruction: "You are the Lead Creative Director and CGI Director at Visual Adda. Your job is to draft concise, highly cinematic, and actionable storyboards, soundscapes, and render engine prompts. Represent all instructions in clear visual studio terminology. Keep output strictly professional, aesthetic, and completely free of conversational fluff.",
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            pitch: { type: Type.STRING, description: "A highly cinematic, catchy tagline or hook for the trailer." },
+            recommendedEngine: { type: Type.STRING, description: "E.g. 'Unreal Engine 5.4 Path-Tracing', 'Three.js / React Three Fiber', 'Octane + Cinema4D'" },
+            sfxProfile: { type: Type.STRING, description: "Describe the spatial background score and sound design, e.g. 'Low low-frequency sub-base, cinematic riser, ambient rain patters.'" },
+            storyboard: {
+              type: Type.ARRAY,
+              description: "Exactly four sequential storyboard shots.",
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  shotNumber: { type: Type.INTEGER },
+                  title: { type: Type.STRING, description: "Name of the shot, e.g. 'The Majestic Monolith'" },
+                  duration: { type: Type.INTEGER, description: "Shot duration in seconds (e.g., 5 or 8)" },
+                  cameraMovement: { type: Type.STRING, description: "Exact camera move, e.g., 'Slow drone truck-in, tilting up 15 degrees'" },
+                  lighting: { type: Type.STRING, description: "Exact light temperature and direction, e.g., 'Golden hour backlighting, high-contrast shadow lines'" },
+                  cgiPrompt: { type: Type.STRING, description: "A state-of-the-art text prompt that can be used in stable diffusion or render pipelines." },
+                  voiceover: { type: Type.STRING, description: "A 1-sentence majestic voiceover script line to accompany the visual." }
+                },
+                required: ["shotNumber", "title", "duration", "cameraMovement", "lighting", "cgiPrompt", "voiceover"]
+              }
+            }
+          },
+          required: ["pitch", "recommendedEngine", "sfxProfile", "storyboard"]
+        }
+      }
+    });
+
+    const draftText = response.text;
+    if (!draftText) {
+      throw new Error("No storyboard draft returned from Gemini API");
+    }
+
+    res.json({ success: true, draft: JSON.parse(draftText) });
+
+  } catch (error: any) {
+    console.error("Error generating storyboard draft:", error);
+    res.status(500).json({ 
+      error: "Failed to generate storyboard draft", 
+      details: error?.message || String(error) 
+    });
+  }
+});
+
 // Setup Vite Dev Server / Static Asset Serving
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {

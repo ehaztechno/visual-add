@@ -12,6 +12,7 @@ import ContactPage from "./components/ContactPage";
 import Footer from "./components/Footer";
 import GlobalSlinkyBackground from "./components/GlobalSlinkyBackground";
 import ExitIntentModal from "./components/ExitIntentModal";
+import AiChatWidget from "./components/AiChatWidget";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -133,6 +134,9 @@ export default function App() {
 
       {/* Exit Intent Prompt */}
       <ExitIntentModal onNavigate={handleNavigate} />
+
+      {/* Optimized Floating AI Assistant */}
+      <AiChatWidget />
     </div>
   );
 }

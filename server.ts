@@ -303,6 +303,53 @@ Design exactly 4 sequential camera shots that outline an immersive storytelling 
   }
 });
 
+// 4. Lightweight AI Chatbot Endpoint
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { messages } = req.body;
+
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: "Missing or invalid 'messages' array" });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ 
+        error: "Gemini API Key is not configured. Please add it via Settings > Secrets." 
+      });
+    }
+
+    // Keep history extremely small (last 6 messages) to minimize memory and token consumption
+    const safetyHistory = messages.slice(-6);
+
+    // Map the messages to the expected format for gemini
+    // format expected by @google/genai: list of contents with role and parts
+    const contents = safetyHistory.map((m: any) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content || m.text || "" }]
+    }));
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: contents,
+      config: {
+        systemInstruction: "You are the friendly, professional AI Chatbot for Visual Adda. Visual Adda is a boutique studio specializing in premium 3D CGI walkthroughs, real-time Unreal Engine rendering, spatial dynamic audio, and interactive WebGL experiences. Provide concise, insightful answers (1-3 sentences max) to queries. Speak elegantly, stay focus, and highlight how Visual Adda saves up to 97.5% of render time using our advanced distributed nodes.",
+        temperature: 0.7,
+        maxOutputTokens: 150, // Keep output extremely short to save token usage and memory
+      }
+    });
+
+    const replyText = response.text;
+    res.json({ success: true, reply: replyText });
+
+  } catch (error: any) {
+    console.error("Error in AI chatbot endpoint:", error);
+    res.status(500).json({ 
+      error: "Failed to process chat query", 
+      details: error?.message || String(error) 
+    });
+  }
+});
+
 // Setup Vite Dev Server / Static Asset Serving
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {

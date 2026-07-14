@@ -12,6 +12,7 @@ import {
   Clock,
   ArrowRight
 } from "lucide-react";
+import VisualAddaLogo from "./VisualAddaLogo";
 
 interface Message {
   id: string;
@@ -120,8 +121,8 @@ export default function AiChatWidget() {
             {/* Header */}
             <div className="bg-gradient-to-r from-[#0a0515] to-[#100820] border-b border-white/10 p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-neon-purple to-neon-orange flex items-center justify-center relative shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                  <Bot className="w-5 h-5 text-black" />
+                <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative shadow-[0_0_15px_rgba(242,145,50,0.15)]">
+                  <VisualAddaLogo variant="solid" size={22} />
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-black rounded-full" />
                 </div>
                 <div className="text-left">

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { Sparkles, Quote, ArrowUpRight, Github, Twitter, Linkedin, Users, Layers, ShieldCheck, HeartHandshake } from "lucide-react";
+import VisualAddaLogo from "./VisualAddaLogo";
 
 interface AboutAgencyProps {
   onNavigate?: (section: string) => void;
@@ -378,6 +379,72 @@ export default function AboutAgency({ onNavigate }: AboutAgencyProps) {
                 <p className="text-xs text-white/60 font-light leading-relaxed">{p.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Official Brand Identity Showcase */}
+        <div className="space-y-12 text-left py-12 border-t border-white/10" id="brand-identity-system">
+          <div className="max-w-2xl space-y-3">
+            <p className="text-xs font-mono text-neon-orange uppercase tracking-widest font-bold">OFFICIAL BRAND ASSETS</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white uppercase">
+              OUR BRAND IDENTITY SYSTEM.
+            </h2>
+            <p className="text-white/50 text-sm font-light leading-relaxed">
+              We operate under three carefully-vetted, high-fidelity brand logo variations designed to align perfectly with event media, light/dark themes, and various design contexts.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Logo 1: Gradient */}
+            <div className="p-8 bg-[#09090c] border border-white/5 rounded-2xl space-y-6 hover:border-white/15 transition-all flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="p-6 bg-black/40 border border-white/5 rounded-xl flex items-center justify-center min-h-[140px] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <VisualAddaLogo showText={true} variant="gradient" size={26} />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">01 // Original Slate Gradient</h3>
+                  <p className="text-[11px] text-white/50 font-mono mt-1 uppercase">Purple-Orange Gradient // Default Editorial Logo</p>
+                </div>
+              </div>
+              <p className="text-xs text-white/40 font-light leading-relaxed pt-4 border-t border-white/5">
+                Optimized for premium editorial content, structural print backdrops, and default website footers. Combines corporate composure with creative energy.
+              </p>
+            </div>
+
+            {/* Logo 2: Solid Orange */}
+            <div className="p-8 bg-[#0c0a09] border border-white/5 rounded-2xl space-y-6 hover:border-white/15 transition-all flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="p-6 bg-black/40 border border-white/5 rounded-xl flex items-center justify-center min-h-[140px] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <VisualAddaLogo showText={true} variant="solid" size={26} />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">02 // Solid Coral Orange</h3>
+                  <p className="text-[11px] text-white/50 font-mono mt-1 uppercase">Single-Color Solid // High-Contrast Utility</p>
+                </div>
+              </div>
+              <p className="text-xs text-white/40 font-light leading-relaxed pt-4 border-t border-white/5">
+                Our active flat utility logo. Ideal for watermark overlay signoffs, dark-mode overlays, chatbot profiles, and unified monochrome branding.
+              </p>
+            </div>
+
+            {/* Logo 3: Vibrant */}
+            <div className="p-8 bg-[#0b090c] border border-white/5 rounded-2xl space-y-6 hover:border-white/15 transition-all flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="p-6 bg-black/40 border border-white/5 rounded-xl flex items-center justify-center min-h-[140px] relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-fuchsia-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <VisualAddaLogo showText={true} variant="vibrant" size={26} />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">03 // Vibrant Cosmic Glow</h3>
+                  <p className="text-[11px] text-white/50 font-mono mt-1 uppercase">Neon Purple-Yellow Gradient // Active Digital</p>
+                </div>
+              </div>
+              <p className="text-xs text-white/40 font-light leading-relaxed pt-4 border-t border-white/5">
+                Specifically tailored for active digital navigation bars and high-contrast digital devices. Leverages electric purple and glowing yellow-orange.
+              </p>
+            </div>
           </div>
         </div>
 

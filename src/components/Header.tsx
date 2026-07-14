@@ -53,12 +53,15 @@ export default function Header({ onNavigate, currentPage, isVisible = true }: He
             <button
               id="logo-btn"
               onClick={() => onNavigate("home")}
-              className="flex items-center gap-1.5 sm:gap-2.5 text-left group cursor-pointer"
+              className="flex items-center text-left group cursor-pointer"
             >
-              <VisualAddaLogo size={22} className="sm:w-8 sm:h-8" />
-              <span className="text-xs sm:text-xl font-bold tracking-tight text-white uppercase group-hover:text-neon-orange transition-colors whitespace-nowrap">
-                VISUAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-orange to-neon-yellow">ADDA</span>
-              </span>
+              {/* Full vector lockup with tagline - scales beautifully across screens */}
+              <VisualAddaLogo 
+                showText={true} 
+                variant="vibrant" 
+                size={24} 
+                className="sm:scale-110 md:scale-125 origin-left transition-transform duration-300" 
+              />
             </button>
 
             {/* Menu Trigger Button */}
@@ -117,9 +120,12 @@ export default function Header({ onNavigate, currentPage, isVisible = true }: He
               <div className="space-y-12">
                 {/* Close Button top section */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <VisualAddaLogo size={28} />
-                    <span className="text-base font-bold tracking-tight uppercase text-white">VISUAL ADDA</span>
+                  <div className="flex items-center">
+                    <VisualAddaLogo 
+                      showText={true} 
+                      variant="vibrant" 
+                      size={26} 
+                    />
                   </div>
 
                   <button

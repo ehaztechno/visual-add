@@ -35,14 +35,14 @@ export default function Footer({ onNavigate }: FooterProps) {
                 onNavigate("home");
                 scrollToTop();
               }}
-              className="flex items-center gap-3.5 text-left group cursor-pointer"
+              className="flex items-center text-left group cursor-pointer"
             >
-              <div className="w-10 h-10 flex items-center justify-center shrink-0">
-                <VisualAddaLogo className="w-full h-full text-white" />
-              </div>
-              <span className="text-xl font-extrabold tracking-widest uppercase text-white font-sans">
-                VISUAL ADDA
-              </span>
+              <VisualAddaLogo 
+                showText={true} 
+                variant="gradient" 
+                size={34} 
+                className="scale-100 sm:scale-110 origin-left transition-transform duration-300" 
+              />
             </button>
             <p className="text-sm text-white/50 font-light leading-relaxed max-w-sm font-sans">
               We help real estate builders, creative agencies, and global enterprises turn ideas into immersive experiences. Specializing in photorealistic 3D CGI walkthroughs, event graphics, and scripted media productions.

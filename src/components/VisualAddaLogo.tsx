@@ -1,5 +1,6 @@
 import React from "react";
-import logoImg from "../assets/images/VISUAL ADDA-V2-1.png";
+
+const logoImg = "https://lh3.googleusercontent.com/d/1vG3e5He4zJFT-nZZQrZdN75bvTSmhxlG";
 
 interface VisualAddaLogoProps {
   className?: string;

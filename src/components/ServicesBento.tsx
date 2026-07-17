@@ -92,7 +92,7 @@ export default function ServicesBento() {
       title: "Motivational Scripted AV",
       subtitle: "Story-driven AVs that motivate, engage & drive change",
       description: "Deeply moving corporate anthems, campaign launch videos, and high-energy scripted brand films centered on three psychological anchors: Believe. Achieve. Inspire.",
-      sampleImage: "https://images.unsplash.com/photo-1516280440614-37939bbacd6a?auto=format&fit=crop&w=800&q=80",
+      sampleImage: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
       tech: ["Creative Copywriting", "Professional Voicecasting", "Premium Audio Mixing", "Climactic Montage Editing"],
       flowchart: ["Core Philosophy Mapping", "Voiceover Script Approval", "Tone-set Music Selection", "Footage Montage Layering", "Climax Assembly Render"]
     },

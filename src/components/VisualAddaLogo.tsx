@@ -1,6 +1,6 @@
 import React from "react";
 
-const logoImg = "https://lh3.googleusercontent.com/d/1vG3e5He4zJFT-nZZQrZdN75bvTSmhxlG";
+const logoImg = "https://lh3.googleusercontent.com/d/1hwwBR0MPzjjAwmCurbmpWgJ1iN9dx88S";
 
 interface VisualAddaLogoProps {
   className?: string;
